@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>노마드코리아 - Future of Work Platform</title>
+    <!-- Google Fonts for better typography -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset & Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6; /* Bright Blue */
+            --primary-dark: #1d4ed8;
+            --secondary: #8b5cf6; /* Violet */
+            --accent: #f59e0b; /* Amber */
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --surface: #ffffff;
+            --gradient-main: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-btn {
+            background: var(--dark);
+            color: white !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            transition: transform 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        header {
+            position: relative;
+            padding: 10rem 1rem 6rem;
+            background: var(--dark);
+            color: white;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.4), transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.4), transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: #93c5fd;
+        }
+
+        header h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: #cbd5e1;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Stats Banner */
+        .stats-banner {
+            margin-top: -3rem;
+            position: relative;
+            z-index: 10;
+            padding: 0 1rem;
+        }
+
+        .stats-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            padding: 2rem;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* Section Common */
+        section {
+            padding: 5rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-tag {
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        /* Feature Cards (Why Now) */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: #eff6ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        /* Comparison Table (Redesigned) */
+        .comparison-section {
+            background: #f1f5f9;
+            border-radius: 24px;
+            padding: 4rem 2rem;
+            margin: 4rem auto;
+        }
+
+        .vs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .vs-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+        }
+
+        .vs-card.competitor {
+            opacity: 0.7;
+        }
+
+        .vs-card.us {
+            border: 2px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+            position: relative;
+            transform: scale(1.05);
+        }
+
+        .vs-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .check-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .check-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* Roadmap */
+        .roadmap-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            position: relative;
+        }
+
+        .step-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            border-top: 4px solid var(--gray);
+            position: relative;
+        }
+
+        .step-card.active {
+            border-top-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .step-card.future {
+            border-top-color: var(--secondary);
+        }
+
+        .step-phase {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .active .step-phase { color: var(--primary); }
+        .future .step-phase { color: var(--secondary); }
+
+        .step-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .step-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        /* Location Map Grid */
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .location-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .location-item:hover {
+            background: #eff6ff;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Financials */
+        .finance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .finance-card {
+            background: var(--dark);
+            color: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .finance-card::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .finance-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .finance-row:last-child {
+            border-bottom: none;
+        }
+
+        /* CTA Footer */
+        .cta-box {
+            background: var(--gradient-main);
+            border-radius: 24px;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 4rem;
+        }
+
+        .cta-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        footer {
+            background: #f8fafc;
+            padding: 3rem 0;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: var(--gray);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            header h1 { font-size: 2.5rem; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .stat-item { border-right: none; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem; }
+            .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+            .vs-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+    <div class="nav-container">
+        <a href="#" class="logo">NOMAD KOREA</a>
+        <ul class="nav-links">
+            <li><a href="#vision">비전</a></li>
+            <li><a href="#market">시장분석</a></li>
+            <li><a href="#solution">솔루션</a></li>
+            <li><a href="#finance">재무계획</a></li>
+            <li><a href="#contact" class="nav-btn">투자 문의</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero -->
+<header>
+    <div class="hero-content animate-fade-in">
+        <span class="badge">Series A Funding Open</span>
+        <h1>디지털 노마드를 위한<br>오프라인 OS를 구축합니다</h1>
+        <p>대한민국 지식산업센터의 공실 문제를 해결하고,<br>전 세계 3,500만 디지털 노마드를 위한 거점을 만듭니다.</p>
+        <div class="hero-btns">
+            <a href="#contact" class="btn btn-primary">투자 제안서 다운로드 <i class="fas fa-arrow-down"></i></a>
+            <a href="#solution" class="btn btn-outline">사업 모델 보기</a>
+        </div>
+    </div>
+</header>
+
+<!-- Stats -->
+<div class="stats-banner animate-fade-in" style="animation-delay: 0.2s;">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-number">2.3억</span>
+            <span class="stat-label">초기 자본금</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">18개월</span>
+            <span class="stat-label">BEP 달성 목표</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">70%</span>
+            <span class="stat-label">목표 가동률</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">150명</span>
+            <span class="stat-label">월간 활성 멤버</span>
+        </div>
+    </div>
+</div>
+
+<!-- Vision / Why Now -->
+<section id="vision">
+    <div class="section-header">
+        <span class="section-tag">Market Opportunity</span>
+        <h2 class="section-title">왜 지금 '노마드코리아' 인가?</h2>
+        <p>글로벌 원격 근무 시장의 폭발적 성장과 한국의 인프라가 만나는 접점에 거대한 기회가 있습니다.</p>
+    </div>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="icon-box"><i class="fas fa-chart-line"></i></div>
+            <h3>데이터 기반 랭킹</h3>
+            <p>인터넷 속도, 생활비, 치안 등 150개 이상의 메트릭으로 분석된 한국의 도시 경쟁력을 활용합니다.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon-box"><i class="fas fa-users"></i></div>
+            <h3>강력한 커뮤니티</h3>
+            <p>단순 공간 임대가 아닌, Nomads.com 데이터 기반의 검증된 커뮤니티 네트워킹을 제공합니다.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon-box"><i class="fas fa-building"></i></div>
+            <h3>공실 문제 해결</h3>
+            <p>도심 내 증가하는 지식산업센터 공실을 '워케이션' 및 '코리빙' 공간으로 전환하여 가치를 창출합니다.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison -->
+<section id="market">
+    <div class="comparison-section">
+        <div class="section-header">
+            <h2 class="section-title">경쟁사 대비 확실한 우위</h2>
+        </div>
+        <div class="vs-grid">
+            <div class="vs-card competitor">
+                <h3>글로벌 정보 사이트</h3>
+                <p style="color:var(--gray)">Nomads.com 등</p>
+                <ul class="check-list">
+                    <li><i class="fas fa-check" style="color:#cbd5e1"></i> 글로벌 정보 제공</li>
+                    <li><i class="fas fa-check" style="color:#cbd5e1"></i> 온라인 커뮤니티</li>
+                    <li><i class="fas fa-times" style="color:red"></i> <strong>실제 공간 부재</strong></li>
+                    <li><i class="fas fa-times" style="color:red"></i> <strong>수익 모델 한계 (멤버십)</strong></li>
+                </ul>
+            </div>
+            <div class="vs-card us">
+                <span class="vs-badge">노마드코리아 모델</span>
+                <h3>Nomad Korea</h3>
+                <p style="color:var(--primary)">O4O (Online for Offline)</p>
+                <ul class="check-list">
+                    <li><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>한국 특화 심층 정보</strong></li>
+                    <li><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>코워킹 + 숙박 올인원</strong></li>
+                    <li><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>다각화된 수익 (공간+중개)</strong></li>
+                    <li><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>지하철 10분 컷 입지</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Strategy / Locations -->
+<section>
+    <div class="section-header">
+        <span class="section-tag">Strategy</span>
+        <h2 class="section-title">성공을 위한 입지 전략</h2>
+        <p>노마드에게 필요한 것은 '힙한 카페'가 아니라 '생존을 위한 인프라'입니다.</p>
+    </div>
+
+    <div class="location-grid">
+        <div class="location-item">
+            <i class="fas fa-wifi fa-2x" style="margin-bottom:1rem; color:var(--dark)"></i>
+            <h4>초고속 인터넷</h4>
+        </div>
+        <div class="location-item">
+            <i class="fas fa-subway fa-2x" style="margin-bottom:1rem; color:var(--dark)"></i>
+            <h4>지하철 10분</h4>
+        </div>
+        <div class="location-item">
+            <i class="fas fa-store fa-2x" style="margin-bottom:1rem; color:var(--dark)"></i>
+            <h4>편의점 5분</h4>
+        </div>
+        <div class="location-item">
+            <i class="fas fa-shield-alt fa-2x" style="margin-bottom:1rem; color:var(--dark)"></i>
+            <h4>안전한 치안</h4>
+        </div>
+    </div>
+
+    <div style="margin-top: 3rem; text-align: center;">
+        <p style="margin-bottom: 1rem; font-weight: 600;">🚀 주요 타겟 거점</p>
+        <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+            <span class="badge" style="background:var(--primary); color:white; border:none;">판교 테크노밸리</span>
+            <span class="badge" style="background:var(--dark); color:white; border:none;">강남/역삼</span>
+            <span class="badge" style="background:var(--dark); color:white; border:none;">마포/홍대</span>
+            <span class="badge" style="background:var(--dark); color:white; border:none;">성수</span>
+            <span class="badge" style="background:var(--accent); color:white; border:none;">부산 해운대</span>
+        </div>
+    </div>
+</section>
+
+<!-- Business Model Roadmap -->
+<section id="solution" style="background: #f8fafc;">
+    <div class="section-header">
+        <span class="section-tag">Growth Roadmap</span>
+        <h2 class="section-title">단계별 확장 전략</h2>
+    </div>
+
+    <div class="roadmap-steps">
+        <!-- Phase 1 -->
+        <div class="step-card active">
+            <div class="step-phase">Phase 01 (초기 6개월)</div>
+            <h3 class="step-title">코워킹 & 커뮤니티</h3>
+            <ul class="check-list">
+                <li><i class="fas fa-dot-circle" style="color:var(--primary)"></i> 150평 규모 거점 구축</li>
+                <li><i class="fas fa-dot-circle" style="color:var(--primary)"></i> 개인석/팀룸/라운지</li>
+                <li><i class="fas fa-dot-circle" style="color:var(--primary)"></i> 월간 밋업 정례화</li>
+            </ul>
+            <div class="step-price">
+                예상 매출: 월 1,040만원
+            </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="step-card future">
+            <div class="step-phase">Phase 02 (6-12개월)</div>
+            <h3 class="step-title">스테이(Stay) 결합</h3>
+            <ul class="check-list">
+                <li><i class="fas fa-dot-circle" style="color:var(--secondary)"></i> 숏스테이 룸 증축</li>
+                <li><i class="fas fa-dot-circle" style="color:var(--secondary)"></i> 주거+업무 올인원 패키지</li>
+                <li><i class="fas fa-dot-circle" style="color:var(--secondary)"></i> 외국인 장기 체류 유치</li>
+            </ul>
+            <div class="step-price">
+                예상 매출: 월 1,764만원+
+            </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="step-card">
+            <div class="step-phase">Phase 03 (1년 이후)</div>
+            <h3 class="step-title">플랫폼 & 멤버십</h3>
+            <ul class="check-list">
+                <li><i class="fas fa-dot-circle" style="color:var(--gray)"></i> 통합 예약 앱 출시</li>
+                <li><i class="fas fa-dot-circle" style="color:var(--gray)"></i> 기업 B2B 워크숍 유치</li>
+                <li><i class="fas fa-dot-circle" style="color:var(--gray)"></i> 글로벌 광고/제휴 수익</li>
+            </ul>
+            <div class="step-price">
+                예상 매출: 월 2,500만원+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Finance -->
+<section id="finance">
+    <div class="section-header">
+        <span class="section-tag">Financial Plan</span>
+        <h2 class="section-title">자금 소요 및 예산</h2>
+    </div>
+
+    <div class="finance-grid">
+        <!-- CAPEX -->
+        <div class="finance-card">
+            <h3 style="margin-bottom: 2rem; font-size: 1.5rem;"><i class="fas fa-coins"></i> 초기 투자 비용</h3>
+            <div class="finance-row">
+                <span>임차 보증금 (150평)</span>
+                <strong>5,000 만원</strong>
+            </div>
+            <div class="finance-row">
+                <span>인테리어 (평당 50)</span>
+                <strong>7,000 만원</strong>
+            </div>
+            <div class="finance-row">
+                <span>가구 및 집기</span>
+                <strong>2,000 만원</strong>
+            </div>
+            <div class="finance-row">
+                <span>IT 인프라/장비</span>
+                <strong>1,000 만원</strong>
+            </div>
+            <div class="finance-row" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid white;">
+                <span>총 소요 예산</span>
+                <span style="color: var(--accent); font-size: 1.2rem;">1억 5천만원 + @</span>
+            </div>
+        </div>
+
+        <!-- Revenue Structure -->
+        <div class="finance-card" style="background: white; color: var(--dark); border: 1px solid #e2e8f0;">
+            <h3 style="margin-bottom: 2rem; font-size: 1.5rem;"><i class="fas fa-chart-pie"></i> 수익 구조 (월)</h3>
+            <div class="finance-row" style="border-bottom-color: #e2e8f0;">
+                <span>멤버십 (30명)</span>
+                <strong>600 만원</strong>
+            </div>
+            <div class="finance-row" style="border-bottom-color: #e2e8f0;">
+                <span>일일/시간 이용권</span>
+                <strong>300 만원</strong>
+            </div>
+            <div class="finance-row" style="border-bottom-color: #e2e8f0;">
+                <span>회의실/이벤트</span>
+                <strong>140 만원</strong>
+            </div>
+            <div style="margin-top: 2rem; background: #eff6ff; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                <p style="margin-bottom: 0.5rem; color: var(--gray);">Phase 1 월 예상 매출</p>
+                <strong style="font-size: 2rem; color: var(--primary);">1,040 만원</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section id="contact">
+    <div class="cta-box">
+        <h2>Next Unicorn of K-Nomad</h2>
+        <p>대한민국 디지털 노마드 생태계의 퍼스트 무버가 되십시오.</p>
+        <div class="hero-btns">
+            <a href="mailto:invest@nomadkorea.com" class="btn" style="background: white; color: var(--primary);">
+                <i class="fas fa-envelope"></i> 투자 문의하기
+            </a>
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-download"></i> 전체 IR 자료 받기
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Nomad Korea. All rights reserved.</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">본 문서는 사업 구상을 위한 제안서이며, 실제 수치는 변동될 수 있습니다.</p>
+    </div>
+</footer>
+
+</body>
+</html>
